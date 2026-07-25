@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y ca-certificates \
 COPY apps/realtime/docker/rootfs/ /
 
 COPY --from=pre /app/out/json/ .
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-frozen-lockfile
 
 COPY --from=pre /app/out/full/ .
 # COPY --from=pre /app/.env .env
