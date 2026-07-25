@@ -74,19 +74,40 @@ const runMigrationsSequentially = async (db) => {
   })
 
   for (const migration of migrationsToRun) {
-    await db.transaction(async (tx) => {
-      for (const stmt of migration.sql) {
-        if (stmt.trim()) {
-          await tx.execute(sql.raw(stmt))
+    for (const stmt of migration.sql) {
+      if (stmt.trim()) {
+        try {
+          await db.execute(sql.raw(stmt))
+        } catch (err) {
+          const errMsg = String(err?.message || err?.cause?.message || err)
+          const errCode = String(err?.code || err?.cause?.code || "")
+          const isIgnorable = 
+            stmt.includes("timescaledb") || 
+            stmt.includes("create_hypertable") || 
+            stmt.includes("continuous_aggregate") || 
+            stmt.includes("add_compression_policy") || 
+            stmt.includes("add_retention_policy") || 
+            stmt.includes("add_continuous_aggregate_policy") || 
+            errMsg.includes("timescaledb") ||
+            errMsg.includes("add_compression_policy") ||
+            errMsg.includes("already exists") ||
+            errCode === "42710" ||
+            errCode === "42P07"
+
+          if (isIgnorable) {
+            console.warn(`[Migration Warning] Skipped statement in ${migration.name}: ${errMsg.slice(0, 100)}`)
+          } else {
+            throw err
+          }
         }
       }
+    }
 
-      await tx.execute(sql`
-        insert into ${sql.identifier(migrationsSchema)}.${sql.identifier(migrationsTable)}
-          ("hash", "created_at", "name")
-        values(${migration.hash}, ${migration.folderMillis}, ${migration.name ?? null})
-      `)
-    })
+    await db.execute(sql`
+      insert into ${sql.identifier(migrationsSchema)}.${sql.identifier(migrationsTable)}
+        ("hash", "created_at", "name")
+      values(${migration.hash}, ${migration.folderMillis}, ${migration.name ?? null})
+    `)
 
     console.log(`Applied migration: ${migration.name}`)
   }

@@ -58,3 +58,4 @@ CLAUDE.md
 
 .pnpm-store/
 .plans/
+.env*
