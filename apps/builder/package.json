@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "SKIP_ENV_CHECK=true next build",
+    "build": "SKIP_ENV_CHECK=true NEXT_TELEMETRY_DISABLED=1 next build --no-lint",
     "check-types": "tsc --noEmit",
     "dev": "dotenv -e .env -e ../../.env -- next dev -p 3123 | pino-pretty",
     "https": "dotenv -e .env -e ../../.env -- next dev -p 3123 --experimental-https",

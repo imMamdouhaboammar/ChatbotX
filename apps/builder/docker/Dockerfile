@@ -16,7 +16,10 @@ RUN turbo prune builder --docker
 
 # Install dependencies
 FROM base AS deps
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_DISABLE_TURBOPACK=1
+ENV CI=1
 
 WORKDIR /app
 COPY --from=pre /app/out/json/ .
@@ -34,7 +37,7 @@ COPY --from=pre /app/out/full/ .
 ENV BETTER_AUTH_SECRET="docker-build-time-placeholder-not-used-at-runtime-0"
 ENV BETTER_AUTH_URL="http://localhost:3000"
 
-RUN SKIP_ENV_CHECK=true pnpm turbo run build --filter=builder
+RUN SKIP_ENV_CHECK=true NEXT_TELEMETRY_DISABLED=1 NEXT_DISABLE_TURBOPACK=1 pnpm turbo run build --filter=builder
 
 # Standalone image has no pnpm workspace; bundle a tiny migration runner (drizzle-orm + pg only).
 RUN apt-get update && apt-get install -y --no-install-recommends jq \
