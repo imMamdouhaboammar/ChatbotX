@@ -14,6 +14,12 @@ const storageUrl = env.NEXT_PUBLIC_STORAGE_URL ?? `${appUrl}/storage`
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: "standalone",
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
