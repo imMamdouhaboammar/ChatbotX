@@ -11,19 +11,16 @@ export function createRedisConnection(
     lazyConnect: true,
     enableOfflineQueue: false,
     retryStrategy: () => null,
+    family: 4,
     ...options,
   }
 
   const connection = new Redis(url, config)
 
-  // A shared, long-lived ioredis client emits 'error' on socket-level failures
-  // (server down, or — as during `next build` — a connection attempted with no
-  // Redis reachable). Without a listener Node treats 'error' as unhandled:
-  // ioredis logs a noisy "[ioredis] Unhandled error event", and an idle error
-  // with no in-flight command can crash the process. Callers already fail fast
-  // and fall back, so we only log here.
+  // A shared, long-lived ioredis client emits 'error' on socket-level failures.
+  // Suppress uncaught AggregateError events so process does not crash when Redis is offline.
   connection.on("error", (err) => {
-    logger.warn({ err }, "Redis connection error")
+    logger.warn({ err }, "Redis connection warning (offline)")
   })
 
   return connection
