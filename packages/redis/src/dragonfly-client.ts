@@ -170,6 +170,9 @@ export function resetDragonflyClient(): void {
 }
 
 export async function initializeDragonfly(): Promise<DragonflyClient> {
+  if (process.env.DISABLE_REDIS === "true" || process.env.SKIP_REDIS === "true") {
+    return getDragonflyClient()
+  }
   const client = getDragonflyClient()
 
   // Only connect if not already connecting or connected
