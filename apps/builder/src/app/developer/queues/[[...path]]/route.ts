@@ -77,6 +77,72 @@ async function handler(request: Request) {
     return new Response("Not found", { status: 404 })
   }
 
+  if (process.env.DISABLE_REDIS === "true" || process.env.SKIP_REDIS === "true") {
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BullMQ Queues - Offline</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 480px;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    .icon-box {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 24px;
+    }
+    h1 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    p { color: #94a3b8; font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+    .badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon-box">⚡</div>
+    <span class="badge">Redis Queues Disabled</span>
+    <h1>Queue Monitoring Offline</h1>
+    <p>Redis background queues are currently disabled (<code>DISABLE_REDIS=true</code>). The main application and control panel are running normally.</p>
+  </div>
+</body>
+</html>`
+    return new Response(html, {
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    })
+  }
+
   const app = await buildApp()
   return handle(app)(request)
 }
