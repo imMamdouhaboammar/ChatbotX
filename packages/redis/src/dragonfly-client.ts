@@ -5,13 +5,11 @@ export class DragonflyClient {
   private readonly client: Redis
   constructor(connectionString: string, password?: string) {
     const options: RedisOptions = {
-      maxRetriesPerRequest: 3,
-      enableReadyCheck: true,
-      lazyConnect: false,
-      retryStrategy: (times: number) => {
-        const delay = Math.min(times * 50, 2000)
-        return delay
-      },
+      maxRetriesPerRequest: null,
+      enableReadyCheck: false,
+      lazyConnect: true,
+      enableOfflineQueue: false,
+      retryStrategy: () => null,
     }
     if (password) {
       options.password = password
