@@ -40,7 +40,7 @@ export const getSubscriberHash = (email: string): string =>
 
 export const getMailchimpClient = (auth: MailchimpAuthValue) =>
   ky.create({
-    prefixUrl: MAILCHIMP_API_BASE_URL_PATTERN.replace(
+    baseUrl: MAILCHIMP_API_BASE_URL_PATTERN.replace(
       "{dataCenter}",
       auth.dataCenter,
     ),

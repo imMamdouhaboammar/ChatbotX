@@ -49,7 +49,7 @@ const dataLength = (data: unknown): number =>
 export const getGetResponseClient = (authValue: GetResponseAuthValue) => {
   const auth = getResponseAuthSchema.parse(authValue)
   return ky.create({
-    prefixUrl: GET_RESPONSE_API_BASE_URL,
+    baseUrl: GET_RESPONSE_API_BASE_URL,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

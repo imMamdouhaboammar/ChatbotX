@@ -13,7 +13,7 @@ const RETRY_OPTIONS = {
 abstract class BaseTiktokHttpClient {
   protected readonly client: KyInstance
 
-  constructor(prefixUrl: string, authHeaders: Record<string, string>) {
+  constructor(baseUrl: string, authHeaders: Record<string, string>) {
     this.client = ky.create({
       baseUrl,
       timeout: 30_000,

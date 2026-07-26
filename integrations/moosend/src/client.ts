@@ -65,7 +65,7 @@ const errorKind = (
 }
 
 const moosendClient = ky.create({
-  prefixUrl: MOOSEND_API_BASE_URL,
+  baseUrl: MOOSEND_API_BASE_URL,
   headers: { Accept: "application/json" },
   retry: 0,
   throwHttpErrors: false,

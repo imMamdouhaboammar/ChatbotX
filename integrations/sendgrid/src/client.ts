@@ -33,7 +33,7 @@ const parseRetryAfter = (value: string | null): number | undefined => {
 export const getSendGridClient = (authValue: SendGridAuthValue) => {
   const auth = sendGridAuthSchema.parse(authValue)
   return ky.create({
-    prefixUrl: SENDGRID_API_BASE_URL,
+    baseUrl: SENDGRID_API_BASE_URL,
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${auth.apiKey}`,

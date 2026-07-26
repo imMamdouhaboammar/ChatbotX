@@ -9,5 +9,5 @@ export const getRealtimeClient = (
     headers: {
       "X-API-KEY": ctx.auth.apiKey,
     },
-    prefixUrl: ctx.auth.wsUrl,
+    baseUrl: ctx.auth.wsUrl,
   })

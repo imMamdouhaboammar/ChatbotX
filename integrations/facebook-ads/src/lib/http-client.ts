@@ -12,7 +12,7 @@ class FacebookAdsHttpClient {
 
   constructor() {
     this.client = ky.create({
-      prefixUrl: GRAPH_API_URL,
+      baseUrl: GRAPH_API_URL,
       timeout: 30_000,
       retry: {
         limit: 3,

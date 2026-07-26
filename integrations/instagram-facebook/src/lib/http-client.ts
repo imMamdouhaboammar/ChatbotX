@@ -4,7 +4,7 @@ import { InstagramAPIException, parseOriginError } from "../exception"
 import { logger } from "./logger"
 
 type HttpClientConfig = {
-  prefixUrl: string
+  baseUrl: string
   timeout?: number
   retries?: number
   retryDelay?: number
@@ -34,7 +34,7 @@ class InstagramHttpClient {
 
   constructor(config: HttpClientConfig) {
     this.client = ky.create({
-      prefixUrl: config.baseUrl,
+      baseUrl: config.baseUrl,
       timeout: config.timeout ?? 30_000,
       retry: {
         limit: config.retries ?? 3,
@@ -96,14 +96,14 @@ class InstagramHttpClient {
 }
 
 export const instagramGraphClient = new InstagramHttpClient({
-  prefixUrl: "https://graph.facebook.com",
+  baseUrl: "https://graph.facebook.com",
   timeout: 30_000,
   retries: 3,
   retryDelay: 1000,
 })
 
 export const instagramAttachmentClient = new InstagramHttpClient({
-  prefixUrl: "https://graph.facebook.com",
+  baseUrl: "https://graph.facebook.com",
   timeout: 60_000,
   retries: 2,
   retryDelay: 2000,

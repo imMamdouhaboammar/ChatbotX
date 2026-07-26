@@ -36,7 +36,7 @@ const parseRetryAfter = (value: string | null): number | undefined => {
 export const getMailerLiteClient = (authValue: MailerLiteAuthValue) => {
   const auth = mailerLiteAuthSchema.parse(authValue)
   return ky.create({
-    prefixUrl: MAILER_LITE_API_BASE_URL,
+    baseUrl: MAILER_LITE_API_BASE_URL,
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${auth.apiKey}`,

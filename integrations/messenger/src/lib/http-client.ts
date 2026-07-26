@@ -4,7 +4,7 @@ import { MessengerAPIException, parseOriginError } from "../exception"
 import { logger } from "./logger"
 
 type HttpClientConfig = {
-  prefixUrl: string
+  baseUrl: string
   timeout?: number
   retries?: number
   retryDelay?: number
@@ -32,7 +32,7 @@ class MessengerHttpClient {
 
   constructor(config: HttpClientConfig) {
     this.client = ky.create({
-      prefixUrl: config.baseUrl,
+      baseUrl: config.baseUrl,
       timeout: config.timeout ?? 30_000,
       retry: {
         limit: config.retries ?? 3,
@@ -110,14 +110,14 @@ class MessengerHttpClient {
 }
 
 export const facebookGraphClient = new MessengerHttpClient({
-  prefixUrl: "https://graph.facebook.com",
+  baseUrl: "https://graph.facebook.com",
   timeout: 30_000,
   retries: 3,
   retryDelay: 1000,
 })
 
 export const facebookAttachmentClient = new MessengerHttpClient({
-  prefixUrl: "https://graph.facebook.com",
+  baseUrl: "https://graph.facebook.com",
   timeout: 60_000,
   retries: 2,
   retryDelay: 2000,
@@ -129,7 +129,7 @@ export const facebookAttachmentClient = new MessengerHttpClient({
  * worst-case attempts past CHUNK_BUDGET_MS and triggers BullMQ lock expiry.
  */
 export const facebookCoexistGraphClient = new MessengerHttpClient({
-  prefixUrl: "https://graph.facebook.com",
+  baseUrl: "https://graph.facebook.com",
   timeout: 30_000,
   retries: 0,
 })
