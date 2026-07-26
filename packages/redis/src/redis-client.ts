@@ -8,6 +8,9 @@ export function createRedisConnection(
   const config: Partial<RedisOptions> = {
     maxRetriesPerRequest: null,
     keepAlive: 5000,
+    lazyConnect: true,
+    enableOfflineQueue: false,
+    retryStrategy: () => null,
     ...options,
   }
 
