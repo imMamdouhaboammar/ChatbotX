@@ -1,5 +1,6 @@
 import logger from "@chatbotx.io/logger"
-import Redis, { type RedisOptions } from "ioredis"
+import type { Redis, RedisOptions } from "ioredis"
+import { createRedisConnection } from "./redis-client"
 
 export class DragonflyClient {
   private readonly client: Redis
@@ -14,7 +15,7 @@ export class DragonflyClient {
     if (password) {
       options.password = password
     }
-    this.client = new Redis(connectionString, options)
+    this.client = createRedisConnection(connectionString, options)
     this.client.on("error", (err) => {
       logger.error({ err }, "Dragonfly connection error")
     })
