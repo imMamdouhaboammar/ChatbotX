@@ -155,7 +155,7 @@ export class ZaloHttpClient {
     return new ZaloHttpClient({
       ...config,
       accessToken: undefined,
-      baseUrl: ZALO_OAUTH_BASE_URL,
+      prefixUrl: ZALO_OAUTH_BASE_URL,
     })
   }
 
@@ -166,7 +166,7 @@ export class ZaloHttpClient {
     return new ZaloHttpClient({
       ...config,
       accessToken,
-      baseUrl: ZALO_API_BASE_URL,
+      prefixUrl: ZALO_API_BASE_URL,
     })
   }
 }

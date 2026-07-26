@@ -40,7 +40,7 @@ const getProviderMessage = (payload: unknown): string | undefined => {
 const getKlaviyoClient = (authValue: KlaviyoAuthValue) => {
   const auth = klaviyoAuthSchema.parse(authValue)
   return ky.create({
-    baseUrl: KLAVIYO_API_BASE_URL,
+    prefixUrl: KLAVIYO_API_BASE_URL,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

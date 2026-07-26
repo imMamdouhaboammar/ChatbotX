@@ -15,7 +15,7 @@ class TelegramHttpClient {
 
   constructor(botToken: string) {
     this.client = ky.create({
-      baseUrl: `https://api.telegram.org/bot${botToken}/`,
+      prefix: `https://api.telegram.org/bot${botToken.trim()}`,
       timeout: 30_000,
       retry: {
         limit: 3,

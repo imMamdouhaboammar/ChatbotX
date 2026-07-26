@@ -20,7 +20,7 @@ const parseRateLimitHeader = (value: string | null): number | undefined => {
 export const getDripClient = (auth: DripCredentialValue) => {
   const basicCredential = Buffer.from(`${auth.apiToken}:`).toString("base64")
   return ky.create({
-    baseUrl: DRIP_API_BASE_URL,
+    prefixUrl: DRIP_API_BASE_URL,
     headers: {
       Accept: "application/json",
       Authorization: `Basic ${basicCredential}`,

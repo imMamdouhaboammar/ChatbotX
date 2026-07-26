@@ -47,7 +47,7 @@ export const getActiveCampaignClient = (
 ) => {
   const auth = activeCampaignCredentialSchema.parse(authValue)
   return ky.create({
-    baseUrl: auth.apiUrl,
+    prefixUrl: auth.apiUrl,
     headers: {
       Accept: "application/json",
       "Api-Token": auth.apiKey,
